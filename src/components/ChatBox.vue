@@ -64,7 +64,7 @@ export default {
 
 :root {
   --amarelo-principal: #FFD700;
-  --preto-principal: #1A1A1A;
+  --preto-principal: #363636;
 }
 
 body {
@@ -74,10 +74,13 @@ body {
   margin: 0;
   align-items: center;
   min-height: 100vh;
+  background-image: url("../assets/anonymous-hacker-data-breach-5k-6000x4004-7.jpg");
 }
 
 .chat-container {
+  margin-top: 5vh;
   width: 80%;
+  height: 90vh;
   max-width: 600px;
   background-color: #282828;
   border-radius: 10px;
@@ -93,7 +96,7 @@ body {
 }
 
 .chat-main {
-  padding: 20px;
+  padding: 33px;
   height: 400px;
   overflow-y: auto;
 }
@@ -111,14 +114,22 @@ body {
 }
 
 .user-message {
-  background-color: #e0c100;
-  align-self: flex-end;
+  background-color: #444444;
+    align-self: flex-end;
+    color: white;
+    width: 41vw;
 }
 
 .ai-message {
   background-color: var(--amarelo-principal);
   color: var(--preto-principal);
   align-self: flex-start;
+    color: antiquewhite;
+    padding: 15px;
+    border-radius: 2%;
+    margin-right: 7vw;
+    width: 43vw;
+    margin-top: 2vh;
 }
 
 .chat-footer {
