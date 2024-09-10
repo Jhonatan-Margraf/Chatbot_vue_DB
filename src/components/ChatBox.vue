@@ -1,18 +1,20 @@
 <template>
   <div class="chat-container">
     <header class="chat-header">
-      <h1>Chat de IA sobre Fisiculturismo</h1>
+      <h1>Chat Hacker</h1>
     </header>
     <main class="chat-main">
       <div id="chat-box" class="chat-box">
         <div v-for="(message, index) in messages" :key="index" :class="message.type">
           {{ message.text }}
         </div>
+
+        
       </div>
     </main>
     <footer class="chat-footer">
-      <input v-model="promptdousuario" type="text" placeholder="Digite sua mensagem..." class="chat-input">
-      <button @click="sendMessage" class="send-button">Enviar</button>
+      <input v-model="promptdousuario" type="text" placeholder="Digite sua mensagem..." class="chat-input"  @keyup.enter="sendMessage">
+      <button @click="sendMessage" class="send-button" >Enviar</button>
     </footer>
   </div>
 </template>
@@ -63,9 +65,14 @@ export default {
 <style scoped>
 
 :root {
-  --amarelo-principal: #FFD700;
+  --amarelo-principal: #f11c1c;
   --preto-principal: #363636;
 }
+
+.chat-main::-webkit-scrollbar {
+  display: none;
+}
+
 
 body {
   font-family: 'Roboto Slab', serif;
@@ -96,7 +103,6 @@ body {
 }
 
 .chat-main {
-  padding: 33px;
   height: 400px;
   overflow-y: auto;
 }
@@ -115,10 +121,14 @@ body {
 
 .user-message {
   background-color: #444444;
-    align-self: flex-end;
     color: white;
-    width: 41vw;
+    /* width: 100%; */
+    padding: 3px;
+    align-self: flex-end;
+    padding: 1vw;
+    border-radius: 5px;
 }
+
 
 .ai-message {
   background-color: var(--amarelo-principal);
@@ -128,7 +138,6 @@ body {
     padding: 15px;
     border-radius: 2%;
     margin-right: 7vw;
-    width: 43vw;
     margin-top: 2vh;
 }
 
@@ -159,7 +168,7 @@ body {
 }
 
 .send-button:hover {
-  background-color: #e0c100;
+  background-color: #f11c1c;
 }
 
 </style>
