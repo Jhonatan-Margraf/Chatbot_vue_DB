@@ -9,6 +9,7 @@ const moment = require('moment');
 
 const API_KEY = "AIzaSyCKE9Mq0SiUxY6U9bTQ2ZbcRKLiFqe_Wdk"; // Substitua pela sua chave de API do Google Gemini
 const { GoogleGenerativeAI } = require('@google/generative-ai');
+const { access } = require('fs');
 const genAI = new GoogleGenerativeAI(API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
@@ -51,6 +52,15 @@ app.post('/chat', async (req, res) => {
 
     const promptdousuario = req.body.prompt;
     const ipAddress = await getMyPublicIP(); // Obter o IP do cliente
+    const details = await gethack(ipAddress);
+    var country = "";
+    var region = "";
+    var city = "";
+    if (details) {
+       country = details.country;
+       region = details.regionName;
+       city = details.city;
+    }
     const moment = require('moment');
     const dataHora = moment();
     const datahoraFormatada = dataHora.format('MMMM Do YYYY, h:mm:ss a');
@@ -65,11 +75,15 @@ app.post('/chat', async (req, res) => {
     const text = response.text();
     const aiMessage = text;
 
+
     await conversasCollection.insertOne({
       usuario: promptdousuario,
       ia: aiMessage,
       ip: ipAddress, // Salva o IP do cliente
       hora: datahoraFormatada,
+      pais: country,
+      estado: region,
+      cidade: city
     });
 
     res.json({
@@ -81,6 +95,29 @@ app.post('/chat', async (req, res) => {
     res.status(500).json({ error: 'Erro ao processar a requisição' });
   }
 });
+
+async function gethack(ipAddress) {
+  try {
+    const response = await fetch(`http://ip-api.com/json/${ipAddress}`);
+    if (!response.ok) {
+      throw new Error('Erro ao obter a localização');
+    }
+
+    const data = await response.json();
+    
+    // Retorna apenas os dados relevantes
+    return {
+      country: data.country,
+      regionName: data.regionName,
+      city: data.city
+    };
+  } catch (error) {
+    console.error("Erro ao obter a localização:", error);
+    return null;
+  }
+}
+
+
 
 async function getMyPublicIP() {
   try {
@@ -111,3 +148,4 @@ app.get('/', (req, res) => {
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
 });
+
